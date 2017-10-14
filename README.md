@@ -18,7 +18,7 @@ This app has three endpoints:
 
 ### /status
 Request using cURL:
-`localhost:8000/status`
+`curl localhost:8000/status`
 
 Response:
 ```
@@ -35,7 +35,7 @@ Response:
 
 ### /public-api-info
 Request using cURL:
-`localhost:8000 cURL:`
+`curl localhost:8000/public-api-info cURL:`
 
 Response:
 ```
@@ -192,7 +192,8 @@ It will try to make a request and convert the response to the needed JSON. Then
 it'll loop through each API given in the list and generate a number of data points 
 about the list of APIs. 
 
-*Room for improvement*
+**Room for improvement**
+
 Move the repeating if/else statments in this endpoint's function into a single 
 function in `utilities.py`
 
@@ -208,7 +209,8 @@ that is enough to know it is `ok`).
 Then for each item in the mapping, try to execute the endpoints function. If this
 succeeds mark as `ok`, else mark as `unavailable`.
 
-*Room for improvement*
+**Room for improvement**
+
 Cannot get Chalice to make requests to itself successfully. Once that is figured
 out, make HTTP requests to the endpoint maps.
 
@@ -228,7 +230,8 @@ instead of a force download of the file.
 The file name is created based on the date and time the file was uploaded, this
 will stop naming collisions of file in the S3 bucket in most cases. 
 
-*Room for improvement*
+**Room for improvement**
+
 Check the MIME-type of the file passed into the request: if it is not a PNG,
 reject it. This will make sure:
 * Users are only uploading PNGs
