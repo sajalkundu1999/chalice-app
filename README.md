@@ -242,4 +242,4 @@ being a PNG
 
 ## Other
 Please look at the documentation available in the source files for more 
-.information
+information.
