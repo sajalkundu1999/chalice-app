@@ -18,6 +18,7 @@ This app has three endpoints:
 
 ### /status
 Request using cURL:
+
 `curl localhost:8000/status`
 
 Response:
@@ -35,7 +36,8 @@ Response:
 
 ### /public-api-info
 Request using cURL:
-`curl localhost:8000/public-api-info cURL:`
+
+`curl localhost:8000/public-api-info`
 
 Response:
 ```
