@@ -7,7 +7,8 @@ from datetime import datetime
 
 import environment as env
 
-app = Chalice(app_name='app')
+app = Chalice(app_name='app') 
+# hi
 
 
 @app.route('/public-api-info', methods=['GET'])
