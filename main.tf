@@ -5,85 +5,42 @@ provider "aws" {
 }
 
 
-resource "aws_iam_role" "lambda_role" {
- name   = "terraform_aws_lambda_role"
- assume_role_policy = <<EOF
+resource "aws_s3_bucket" "my_bucket" {
+  bucket = "chalice"  # Update with your desired bucket name
+  acl    = "private"   # Update with the desired access control list
+}
+
+resource "aws_lambda_function" "my_lambda" {
+  function_name    = "my-lambda"  # Update with your desired Lambda function name
+  role             = aws_iam_role.my_lambda_role.arn
+  handler          = "app.app"
+  runtime          = "python3.8"  # Update with your desired runtime
+  filename         = "lambda.zip"  # Update with the filename of your Lambda deployment package
+  source_code_hash = filebase64sha256("lambda.zip")
+}
+
+resource "aws_iam_role" "my_lambda_role" {
+  name = "my-lambda-role"  # Update with your desired IAM role name
+
+  assume_role_policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": "sts:AssumeRole",
+      "Effect": "Allow",
       "Principal": {
         "Service": "lambda.amazonaws.com"
       },
-      "Effect": "Allow",
-      "Sid": ""
+      "Action": "sts:AssumeRole"
     }
   ]
 }
 EOF
 }
 
-# IAM policy for logging from a lambda
-
-resource "aws_iam_policy" "iam_policy_for_lambda" {
-
-  name         = "aws_iam_policy_for_terraform_aws_lambda_role"
-  path         = "/"
-  description  = "AWS IAM Policy for managing aws lambda role"
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "logs:CreateLogGroup",
-        "logs:CreateLogStream",
-        "logs:PutLogEvents"
-      ],
-      "Resource": "arn:aws:logs:*:*:*",
-      "Effect": "Allow"
-    }
-  ]
-}
-EOF
+resource "aws_iam_policy_attachment" "my_lambda_policy_attachment" {
+  name       = "my-lambda-policy-attachment"
+  roles      = [aws_iam_role.my_lambda_role.name]
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"  # Update with the desired IAM policy ARN
 }
 
-# Policy Attachment on the role.
-
-resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
-  role        = aws_iam_role.lambda_role.name
-  policy_arn  = aws_iam_policy.iam_policy_for_lambda.arn
-}
-
-# Generates an archive from content, a file, or a directory of files.
-
-data "archive_file" "zip_the_python_code" {
- type        = "zip"
- source_dir  = "${path.module}/app/"
- output_path = "${path.module}/app/hello-app.zip"
-}
-
-# Create a lambda function
-# In terraform ${path.module} is the current directory.
-resource "aws_lambda_function" "terraform_lambda_func" {
- filename                       = "${path.module}/app/hello-app.zip"
- function_name                  = "Jhooq-Lambda-Function"
- role                           = aws_iam_role.lambda_role.arn
- handler                        = "hello-app.@app.route"
- runtime                        = "python3.8"
- depends_on                     = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
-}
-
-
-output "teraform_aws_role_output" {
- value = aws_iam_role.lambda_role.name
-}
-
-output "teraform_aws_role_arn_output" {
- value = aws_iam_role.lambda_role.arn
-}
-
-output "teraform_logging_arn_output" {
- value = aws_iam_policy.iam_policy_for_lambda.arn
-}
