@@ -11,8 +11,8 @@ permissions:
 jobs:
   terraform:
     name: 'Terraform'
-    runs-on: [self-hosted, chalice-app] #sajal change
-    # ubuntu-latest
+    runs-on: ubuntu-latest 
+    #[self-hosted, chalice-app]
     environment: production
 
     defaults:
