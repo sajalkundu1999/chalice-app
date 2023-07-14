@@ -11,7 +11,7 @@ permissions:
 jobs:
   terraform:
     name: 'Terraform'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, chalice-app]
     environment: production
 
     defaults:
