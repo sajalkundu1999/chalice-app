@@ -19,34 +19,15 @@ provider "aws" {
   region = "us-west-2"  # Replace with your desired AWS region
 }
 
-resource "aws_s3_bucket" "chalice" {
+resource "aws_s3_bucket" "chalice_bucket" {
   bucket = "chalice"  # Replace with your desired bucket name
 }
 
-resource "aws_lambda_function" "chalice_lambda" {
-  function_name = "my-chalice-lambda"  # Replace with your desired Lambda function name
-  role          = aws_iam_role.chalice_lambda_role.arn
-  handler       = "app.app"
-  runtime       = "python3.8"
-  filename      = "deployment.zip"
-  source_code_hash = filebase64sha256("deployment.zip")
+resource "aws_s3_bucket_object" "chalice_code" {
+  bucket = aws_s3_bucket.chalice_bucket.id
+  key    = "chalice_code.zip"
+  source = "path/to/your/chalice_code.zip"  # Replace with the path to your Chalice code ZIP file
+
+  depends_on = [aws_s3_bucket.chalice_bucket]
 }
 
-resource "aws_iam_role" "chalice_lambda_role" {
-  name = "my-chalice-lambda-role"  # Replace with your desired role name
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "lambda.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-EOF
-}
