@@ -4,7 +4,7 @@ provider "aws" {
   region     = "us-west-2"
 }
 
-# Define the virtual machine resource
+# Define the virtual machine resource aws
 resource "aws_instance" "chalice-app" {
   ami           = "ami-053b0d53c279acc90"
   instance_type = "t2.micro"
@@ -13,3 +13,4 @@ resource "aws_instance" "chalice-app" {
     Name = "chalice-app"
   }
 }
+
