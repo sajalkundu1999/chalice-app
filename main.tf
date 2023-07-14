@@ -16,6 +16,7 @@ resource "aws_instance" "chalice-app" {
 
 
 
+
 # provider "aws" {
 #   region = "us-west-2"  # Replace with your desired AWS region
 # }
