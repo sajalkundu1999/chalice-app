@@ -4,7 +4,7 @@ provider "aws" {
   region     = "us-west-2"
 }
 
-# Define the virtual machine resource aws
+# Define the virtual machine resource aws terraform
 resource "aws_instance" "chalice-app" {
   ami           = "ami-053b0d53c279acc90"
   instance_type = "t2.micro"
