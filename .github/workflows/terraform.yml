@@ -12,7 +12,6 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: [self-hosted, chalice-app] #ubuntu-latest 
-    [self-hosted, chalice-app]
     environment: production
 
     defaults:
