@@ -37,7 +37,6 @@ resource "aws_iam_role" "my_lambda_role" {
 }
 EOF
 }
-
 resource "aws_iam_policy_attachment" "my_lambda_policy_attachment" {
   name       = "my-lambda-policy-attachment"
   roles      = [aws_iam_role.my_lambda_role.name]
