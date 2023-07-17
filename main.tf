@@ -42,5 +42,3 @@ resource "aws_iam_policy_attachment" "my_lambda_policy_attachment" {
   roles      = [aws_iam_role.my_lambda_role.name]
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"  # Update with the desired IAM policy ARN
 }
-
-
